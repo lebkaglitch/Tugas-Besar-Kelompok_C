@@ -1,93 +1,90 @@
-#ifndef MATAKULIAH_H_INCLUDED
-#define MATAKULIAH_H_INCLUDED
+#ifndef TERDAKWA_H_INCLUDED
+#define TERDAKWA_H_INCLUDED
+
 #include <string>
 #include <iostream>
 
 using namespace std;
 
-struct ------------
-{
-    ------------
+struct Terdakwa {
+    string id_terdakwa;
+    string nama;
+    string alamat;
 };
 
-typedef ------------ ------------;         // variabel alias untuk infor
-typedef  struct ------------ *------------;   // variabel alias untuk pointer
+typedef Terdakwa infotypeTerdakwa;          // variabel alias untuk info
+typedef struct elmTerdakwa *adrTerdakwa;    // variabel alias untuk pointer
 
-// kerangka dari elemen list
-struct ------------
-{
-    ------------
+// kerangka dari elemen list (SLL)
+struct elmTerdakwa {
+    infotypeTerdakwa info;
+    adrTerdakwa next;
 };
 
-// kerangka dari list
-struct ------------
-{
-    ------------ ------------;
+// kerangka dari list (SLL)
+struct ListTerdakwa {
+    adrTerdakwa first;
+    adrTerdakwa last;
 };
 
 // pengecekan apakah list kosong
-------------;
-/* I.S. list LMK terdefinisi
+bool isEmptyTerdakwa(ListTerdakwa LT);
+/* I.S. list LT terdefinisi
    F.S. true jika list kosong dan false jika tidak kosong */
 
 // pembuatan list kosong
-------------;
+void createListTerdakwa(ListTerdakwa &LT);
 /* I.S. ~
    F.S. terbentuk list kosong */
 
 // manajemen memori
-------------;
-/* I.S. info mata kuliah x terdefinisi
+adrTerdakwa alokasiTerdakwa(infotypeTerdakwa x);
+/* I.S. info terdakwa x terdefinisi
    F.S. mengembalikan alamat elemen berisi x dengan next NULL */
 
-------------;
+void dealokasiTerdakwa(adrTerdakwa &P);
 /* I.S. pointer P terdefinisi
    F.S. memori yang digunakan P dikembalikan ke sistem */
 
 // pencarian sebuah elemen list
-------------;
-/* I.S. list LMK dan kode mata kuliah terdefinisi
-   F.S. mengembalikan alamat elemen mata kuliah yang cocok atau NULL jika tidak ditemukan
-*/
+adrTerdakwa findTerdakwa(ListTerdakwa LT, string id_terdakwa);
+/* I.S. list LT dan id_terdakwa terdefinisi
+   F.S. mengembalikan alamat elemen terdakwa yang cocok atau NULL jika tidak ditemukan */
 
-// penambahan elemen *
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong dan elemen list P
+// penambahan elemen
+void insertFirstTerdakwa(ListTerdakwa &LT, adrTerdakwa P);
+/* I.S. terdefinisi list LT yang mungkin kosong dan elemen list P
    F.S. menempatkan elemen beralamat P pada awal list */
 
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong, elemen list P dan elemn list prec
+void insertAfterTerdakwa(ListTerdakwa &LT, adrTerdakwa Prec, adrTerdakwa P);
+/* I.S. terdefinisi list LT yang mungkin kosong, elemen list P dan elemen list Prec
    F.S. menempatkan elemen beralamat P sesudah elemen beralamat Prec */
 
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong dan elemen list P
+void insertLastTerdakwa(ListTerdakwa &LT, adrTerdakwa P);
+/* I.S. terdefinisi list LT yang mungkin kosong dan elemen list P
    F.S. menempatkan elemen beralamat P pada akhir list */
 
 // penghapusan sebuah elemen
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen pertama list
-        yang akan dihapus dan elemen list selanjutnya akan menjadi
-        elemenlist pertama atau tidak ada elemen list pertama*/
+void deleteFirstTerdakwa(ListTerdakwa &LT, adrTerdakwa &P);
+/* I.S. terdefinisi list LT yang mungkin kosong dan elemen list P
+   F.S. P adalah alamat dari elemen pertama list yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen terakhir list
-        yang akan dihapus dan elemen list sebelumnya akan menjadi
-        elemenlist terakhir atau tidak ada elemen list terakhir */
+void deleteLastTerdakwa(ListTerdakwa &LT, adrTerdakwa &P);
+/* I.S. terdefinisi list LT yang mungkin kosong dan elemen list P
+   F.S. P adalah alamat dari elemen terakhir list yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong, elemen list P dan elemn list prec
-   F.S. P adalah alamat dari alamat elemen list setelah prec
-        yang akan dihapus dan elemen list setelah p akan terhubung
-        langsung dengan prec atau tidak ada elemen list setelahnya */
+void deleteAfterTerdakwa(ListTerdakwa &LT, adrTerdakwa Prec, adrTerdakwa &P);
+/* I.S. terdefinisi list LT yang mungkin kosong, elemen list P dan elemen list Prec
+   F.S. P adalah alamat dari elemen list setelah Prec yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LMK yang mungkin kosong
+// menampilkan isi list
+void printInfoTerdakwa(ListTerdakwa LT);
+/* I.S. terdefinisi list LT yang mungkin kosong
    F.S. jika list tidak kosong menampilkan semua info yang ada pada list */
 
-------------;
+// input data terdakwa dari user
+infotypeTerdakwa inputDataTerdakwa();
 /* I.S. ~
-   F.S. meminta data mahasisswa dari user */
+   F.S. meminta data terdakwa dari user */
 
-#endif // MATAKULIAH_H_INCLUDED
+#endif // TERDAKWA_H_INCLUDED

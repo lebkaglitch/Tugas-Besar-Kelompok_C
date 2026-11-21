@@ -1,117 +1,113 @@
-#ifndef NILAIBST_H_INCLUDED
-#define NILAIBST_H_INCLUDED
+#ifndef PUTUSANBST_H_INCLUDED
+#define PUTUSANBST_H_INCLUDED
+
 #include <string>
 #include <iostream>
 
 using namespace std;
 
-struct NilaiAkademik
-{
-    ------------
+struct Putusan {
+    string nomor_putusan;   // Key utama BST (Unik)
+    string nomor_perkara;
+    string id_hakim;
+    string id_terdakwa;
+    string tanggal_putusan;
+    string hasil_keputusan;
+    string jenis_hukuman;
+    string status_banding;
 };
 
-typedef ------------ ------------; // variabel alias untuk infor
-typedef  struct ------------ *------------;   // variabel alias untuk pointer
+typedef Putusan infotypePutusan;        // variabel alias untuk info
+typedef struct nodePutusan *adrPutusan; // variabel alias untuk pointer
 
-// kerangka dari elemen node
-struct nodeNilai
-{
-    ------------
+// tipe bentukan dari elemen node
+struct nodePutusan {
+    infotypePutusan info;
+    adrPutusan left;
+    adrPutusan right;
 };
 
-// kerangka dari BST
-struct BST
-{
-    ------------
+// tipe bentukan dari BST
+struct BST {
+    adrPutusan root;
 };
 
-------------;
-/* I.S. grade terdefinisi
-   F.S. mengembalikan urutan grade T < E < D < C < BC < B < AB < A,
-        atau -1 jika grade tidak dikenal */
-
-------------;
-/* I.S. record left dan right terdefinisi dengan grade yang dikenal
-   F.S. true jika record left berada sebelum record right sesuai urutan BST */
-
-------------;
-/* I.S. komponen tugas, kuis, UTS, dan UAS terdefinisi
-   F.S. nilai akhir dibulatkan dari 15% tugas + 15% kuis + 35% UTS + 35% UAS;
-        grade T digunakan jika hasil berbobot di luar 0 sampai 100 */
+// fungsi pembantu komparasi key BST
+bool isLessPutusan(infotypePutusan left, infotypePutusan right);
+/* I.S. record left dan right terdefinisi
+   F.S. true jika nomor_putusan left berada sebelum right secara leksikografis/numerik */
 
 // pengecekan apakah BST kosong
-------------;
+bool isEmptyBST(BST T);
 /* I.S. BST T terdefinisi
    F.S. true jika BST kosong dan false jika tidak kosong */
 
 // pembuatan BST kosong
-------------;
+void createBST(BST &T);
 /* I.S. ~
    F.S. terbentuk BST kosong */
 
 // manajemen memori
-------------;
+adrPutusan alokasiPutusan(infotypePutusan x);
 /* I.S. info x terdefinisi
    F.S. mengembalikan alamat node berisi x dengan anak kiri dan kanan NULL */
 
-------------;
+void dealokasiPutusan(adrPutusan &P);
 /* I.S. pointer P terdefinisi
    F.S. memori yang digunakan P dikembalikan ke sistem */
 
 // pencarian sebuah elemen node
-------------;
-/* I.S. BST T dan identitas mahasiswa, mata kuliah, serta periode terdefinisi
-   F.S. mengembalikan alamat node yang cocok atau NULL jika tidak ditemukan
-*/
+adrPutusan findPutusan(BST T, string nomor_putusan);
+/* I.S. BST T dan nomor_putusan terdefinisi
+   F.S. mengembalikan alamat node yang cocok atau NULL jika tidak ditemukan */
 
-// penambahan elemen *
-------------;
+// penambahan elemen
+void insertPutusan(BST &T, adrPutusan P);
 /* I.S. terdefinisi BST T yang mungkin kosong dan elemen node P
-   F.S. menempatkan elemen beralamat P menurut T < E < D < C < BC < B < AB < A,
-        lalu NIM, kode MK, semester, dan tahun akademik sebagai tie-breaker */
+   F.S. menempatkan elemen beralamat P ke dalam BST berdasarkan nomor_putusan */
 
 // penghapusan node yang sudah diketahui alamatnya
-------------;
+void deleteNodePutusan(BST &T, adrPutusan &P);
 /* I.S. terdefinisi BST T yang mungkin kosong dan elemen node P
-   F.S. P adalah alamat dari alamat elemen yang akan dihapus.
-        elemen lain menggantikan posisi elemen P yang dihapus
-        sesuai aturan BST*/
+   F.S. node P dihapus dan digantikan sesuai aturan BST (successor/predecessor) */
 
-------------;
-/* I.S. terdefinisi BST T dan identitas record nilai
+void deletePutusanByNomor(BST &T, string nomor_putusan);
+/* I.S. terdefinisi BST T dan nomor_putusan
    F.S. record yang cocok dihapus jika ditemukan */
 
-------------;
-/* I.S. terdefinisi BST T
+// traversal BST
+void printInOrder(adrPutusan root);
+/* I.S. terdefinisi root BST T
    F.S. seluruh record ditampilkan dengan traversal in-order */
 
-------------;
-/* I.S. terdefinisi BST T
+void printPreOrder(adrPutusan root);
+/* I.S. terdefinisi root BST T
    F.S. seluruh record ditampilkan dengan traversal pre-order */
 
-------------;
-/* I.S. terdefinisi BST T
+void printPostOrder(adrPutusan root);
+/* I.S. terdefinisi root BST T
    F.S. seluruh record ditampilkan dengan traversal post-order */
 
-------------;
+// operasi analitik dasar BST
+adrPutusan findMinPutusan(BST T);
 /* I.S. terdefinisi BST T
-   F.S. mengembalikan node dengan grade minimum atau NULL jika BST kosong */
+   F.S. mengembalikan node dengan nomor_putusan terkecil atau NULL jika BST kosong */
 
-------------;
+adrPutusan findMaxPutusan(BST T);
 /* I.S. terdefinisi BST T
-   F.S. mengembalikan node dengan grade maksimum atau NULL jika BST kosong */
+   F.S. mengembalikan node dengan nomor_putusan terbesar atau NULL jika BST kosong */
 
-------------;
-/* I.S. terdefinisi BST T
+int heightBST(adrPutusan root);
+/* I.S. terdefinisi root BST T
    F.S. mengembalikan tinggi BST; tinggi pohon kosong adalah 0 */
 
-------------;
-/* I.S. terdefinisi BST T
+int countNodesBST(adrPutusan root);
+/* I.S. terdefinisi root BST T
    F.S. mengembalikan jumlah node dalam BST */
 
-------------;
+// input data putusan dari user
+infotypePutusan inputDataPutusan();
 /* I.S. ~
-   F.S. meminta data nilai akademik dari user */
+   F.S. meminta data putusan persidangan dari user */
 
-
-#endif // NILAIBST_H_INCLUDED
+#endif // PUTUSANBST_H_INCLUDED

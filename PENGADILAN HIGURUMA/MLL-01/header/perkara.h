@@ -1,94 +1,97 @@
-#ifndef KRS_H_INCLUDED
-#define KRS_H_INCLUDED
-#include "matakuliah.h"
+#ifndef PERKARA_H_INCLUDED
+#define PERKARA_H_INCLUDED
+
+#include "terdakwa.h"
 #include <string>
 #include <iostream>
 
 using namespace std;
 
-struct ------------
-{
-    ------------
+struct Perkara {
+    string nomor_perkara;
+    string tanggal_sidang;
+    string peran_hakim;
+    string status_perkara;
+    long long biaya_perkara;
 };
 
-typedef ------------ ------------;         // variabel alias untuk infor
-typedef  struct ------------ *------------;   // variabel alias untuk pointer
+typedef Perkara infotypePerkara;          // variabel alias untuk info
+typedef struct elmPerkara *adrPerkara;    // variabel alias untuk pointer
 
-// kerangka dari elemen list
-struct ------------
-{
-    ------------
+// kerangka dari elemen relasi (DLL)
+struct elmPerkara {
+    infotypePerkara info;
+    adrTerdakwa terdakwa; // Pointer menunjuk ke Child (Terdakwa)
+    adrPerkara next;
+    adrPerkara prev;      // Pointer mundur karena relasi menggunakan DLL
 };
 
-// kerangka dari list
-struct ListKRS
-{
-    ------------
+// kerangka dari list relasi (DLL)
+struct ListPerkara {
+    adrPerkara first;
+    adrPerkara last;
 };
 
-// pengecekan apakah list kosong
-------------;
-/* I.S. list LK terdefinisi
+// pengecekan apakah list relasi kosong
+bool isEmptyPerkara(ListPerkara LP);
+/* I.S. list LP terdefinisi
    F.S. true jika list kosong dan false jika tidak kosong */
 
-// pembuatan list kosong
-------------;
+// pembuatan list relasi kosong
+void createListPerkara(ListPerkara &LP);
 /* I.S. ~
-   F.S. terbentuk list kosong */
+   F.S. terbentuk list relasi kosong (first dan last NULL) */
 
 // manajemen memori
-------------;
-/* I.S. info KRS x dan alamat mata kuliah terdefinisi
-   F.S. mengembalikan alamat elemen KRS berisi x, next NULL, dan menunjuk pMatakuliah */
+adrPerkara alokasiPerkara(infotypePerkara x, adrTerdakwa T);
+/* I.S. info perkara x dan alamat terdakwa T terdefinisi
+   F.S. mengembalikan alamat elemen perkara berisi x yang menunjuk ke T
+        dengan next dan prev NULL */
 
-------------;
+void dealokasiPerkara(adrPerkara &P);
 /* I.S. pointer P terdefinisi
-   F.S. elemen KRS di-dealokasi; elemen mata kuliah yang ditunjuk tidak ikut dihapus */
+   F.S. memori elemen perkara P dikembalikan ke sistem;
+        elemen terdakwa yang dirujuk tidak ikut dihapus */
 
-// pencarian sebuah elemen list
-------------;
-/* I.S. list LK milik mahasiswa dan ID KRS terdefinisi
-   F.S. mengembalikan alamat elemen KRS yang cocok atau NULL jika tidak ditemukan
-*/
+// pencarian sebuah elemen relasi
+adrPerkara findPerkara(ListPerkara LP, string nomor_perkara);
+/* I.S. list LP dan nomor_perkara terdefinisi
+   F.S. mengembalikan alamat elemen perkara yang cocok atau NULL jika tidak ditemukan */
 
-// penambahan elemen *
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong dan elemen list P
-   F.S. menempatkan elemen beralamat P pada awal list */
+// penambahan elemen (DLL)
+void insertFirstPerkara(ListPerkara &LP, adrPerkara P);
+/* I.S. terdefinisi list LP yang mungkin kosong dan elemen perkara P
+   F.S. menempatkan elemen beralamat P pada awal list LP */
 
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong, elemen list P dan elemn list prec
+void insertAfterPerkara(ListPerkara &LP, adrPerkara Prec, adrPerkara P);
+/* I.S. terdefinisi list LP yang mungkin kosong, elemen Prec, dan elemen P
    F.S. menempatkan elemen beralamat P sesudah elemen beralamat Prec */
 
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong dan elemen list P
-   F.S. menempatkan elemen beralamat P pada akhir list */
+void insertLastPerkara(ListPerkara &LP, adrPerkara P);
+/* I.S. terdefinisi list LP yang mungkin kosong dan elemen perkara P
+   F.S. menempatkan elemen beralamat P pada akhir list LP */
 
-// penghapusan sebuah elemen
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen pertama list
-        yang akan dihapus dan elemen list selanjutnya akan menjadi
-        elemenlist pertama atau tidak ada elemen list pertama*/
+// penghapusan sebuah elemen (DLL)
+void deleteFirstPerkara(ListPerkara &LP, adrPerkara &P);
+/* I.S. terdefinisi list LP yang mungkin kosong
+   F.S. P adalah alamat dari elemen pertama list yang dihapus dari LP */
 
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen terakhir list
-        yang akan dihapus dan elemen list sebelumnya akan menjadi
-        elemenlist terakhir atau tidak ada elemen list terakhir */
+void deleteLastPerkara(ListPerkara &LP, adrPerkara &P);
+/* I.S. terdefinisi list LP yang mungkin kosong
+   F.S. P adalah alamat dari elemen terakhir list yang dihapus dari LP */
 
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong, elemen list P dan elemn list prec
-   F.S. P adalah alamat dari alamat elemen list setelah prec
-        yang akan dihapus dan elemen list setelah p akan terhubung
-        langsung dengan prec atau tidak ada elemen list setelahnya */
+void deleteAfterPerkara(ListPerkara &LP, adrPerkara Prec, adrPerkara &P);
+/* I.S. terdefinisi list LP yang mungkin kosong dan elemen Prec
+   F.S. P adalah alamat dari elemen setelah Prec yang dihapus dari LP */
 
-------------;
-/* I.S. terdefinisi list LK yang mungkin kosong
-   F.S. jika list tidak kosong menampilkan semua info yang ada pada list */
+// menampilkan seluruh elemen relasi pada satu hakim
+void printInfoPerkara(ListPerkara LP);
+/* I.S. terdefinisi list LP yang mungkin kosong
+   F.S. jika list tidak kosong menampilkan semua info perkara beserta info terdakwanya */
 
-------------;
+// input data perkara dari user
+infotypePerkara inputDataPerkara();
 /* I.S. ~
-        F.S. meminta data KRS dari user */
+   F.S. meminta data perkara dari user dan mengembalikannya sebagai infotypePerkara */
 
-#endif // KRS_H_INCLUDED
+#endif // PERKARA_H_INCLUDED

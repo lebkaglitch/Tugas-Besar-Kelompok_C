@@ -1,99 +1,100 @@
-#ifndef MAHASISWA_H_INCLUDED
-#define MAHASISWA_H_INCLUDED
-#include "krs.h"
+#ifndef HAKIM_H_INCLUDED
+#define HAKIM_H_INCLUDED
+
+#include "perkara.h"
 #include <string>
 #include <iostream>
 
 using namespace std;
 
-struct ------------
-{
-    ------------
+struct Hakim {
+    string id_hakim;
+    string nama;
+    string jabatan;
+    string pengadilan;
 };
 
-typedef ------------ ------------;         // variabel alias untuk infor
-typedef  struct ------------ *------------;   // variabel alias untuk pointer
+typedef Hakim infotypeHakim;            // variabel alias untuk info
+typedef struct elmHakim *adrHakim;      // variabel alias untuk pointer
 
-// kerangka dari elemen list
-struct ------------
-{
-    ------------
+// kerangka dari elemen list (SLL)
+struct elmHakim {
+    infotypeHakim info;
+    adrHakim next;           // Hanya next (SLL)
+    ListPerkara listPerkara; // Sub-list relasi perkara (DLL: memiliki first & last)
 };
 
-// kerangka dari list
-struct ------------
-{
-    ------------
+// kerangka dari list (SLL)
+struct ListHakim {
+    adrHakim first;
+    adrHakim last;
 };
 
 // pengecekan apakah list kosong
-------------;
-/* I.S. list LM terdefinisi
+bool isEmptyHakim(ListHakim LH);
+/* I.S. list LH terdefinisi
    F.S. true jika list kosong dan false jika tidak kosong */
 
-------------;
+// pembuatan list kosong
+void createListHakim(ListHakim &LH);
 /* I.S. ~
    F.S. terbentuk list kosong */
 
 // manajemen memori
-------------;
-/* I.S. info mahasiswa x terdefinisi
-   F.S. mengembalikan alamat elemen berisi x dengan prev/next NULL
-        dan daftar KRS dalam keadaan kosong */
+adrHakim alokasiHakim(infotypeHakim x);
+/* I.S. info hakim x terdefinisi
+   F.S. mengembalikan alamat elemen berisi x dengan next NULL
+        dan listPerkara kosong (first dan last NULL) */
 
-------------;
+void dealokasiHakim(adrHakim &P);
 /* I.S. pointer P terdefinisi
-   F.S. elemen mahasiswa dan seluruh elemen KRS relasinya di-dealokasi;
-        elemen mata kuliah yang dirujuk tidak ikut dihapus */
+   F.S. elemen hakim dan seluruh elemen perkara relasinya di-dealokasi;
+        elemen terdakwa yang dirujuk tidak ikut dihapus */
 
 // pencarian sebuah elemen list
-------------;
-/* I.S. list LM dan NIM terdefinisi
-   F.S. mengembalikan alamat elemen mahasiswa yang cocok atau NULL jika tidak ditemukan
-*/
+adrHakim findHakim(ListHakim LH, string id_hakim);
+/* I.S. list LH dan id_hakim terdefinisi
+   F.S. mengembalikan alamat elemen hakim yang cocok atau NULL jika tidak ditemukan */
 
-// penambahan elemen *
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong dan elemen list P
+// penambahan elemen
+void insertFirstHakim(ListHakim &LH, adrHakim P);
+/* I.S. terdefinisi list LH yang mungkin kosong dan elemen list P
    F.S. menempatkan elemen beralamat P pada awal list */
 
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong, elemen list P dan elemn list prec
+void insertAfterHakim(ListHakim &LH, adrHakim Prec, adrHakim P);
+/* I.S. terdefinisi list LH yang mungkin kosong, elemen list P dan elemen list Prec
    F.S. menempatkan elemen beralamat P sesudah elemen beralamat Prec */
 
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong dan elemen list P
+void insertLastHakim(ListHakim &LH, adrHakim P);
+/* I.S. terdefinisi list LH yang mungkin kosong dan elemen list P
    F.S. menempatkan elemen beralamat P pada akhir list */
 
 // penghapusan sebuah elemen
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen pertama list
-        yang akan dihapus dan elemen list selanjutnya akan menjadi
-        elemenlist pertama atau tidak ada elemen list pertama*/
+void deleteFirstHakim(ListHakim &LH, adrHakim &P);
+/* I.S. terdefinisi list LH yang mungkin kosong dan elemen list P
+   F.S. P adalah alamat dari elemen pertama list yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong dan elemen list P
-   F.S. P adalah alamat dari alamat elemen terakhir list
-        yang akan dihapus dan elemen list sebelumnya akan menjadi
-        elemenlist terakhir atau tidak ada elemen list terakhir */
+void deleteLastHakim(ListHakim &LH, adrHakim &P);
+/* I.S. terdefinisi list LH yang mungkin kosong dan elemen list P
+   F.S. P adalah alamat dari elemen terakhir list yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong, elemen list P dan elemn list prec
-   F.S. P adalah alamat dari alamat elemen list setelah prec
-        yang akan dihapus dan elemen list setelah p akan terhubung
-        langsung dengan prec atau tidak ada elemen list setelahnya */
+void deleteAfterHakim(ListHakim &LH, adrHakim Prec, adrHakim &P);
+/* I.S. terdefinisi list LH yang mungkin kosong, elemen list P dan elemen list Prec
+   F.S. P adalah alamat dari elemen list setelah Prec yang akan dihapus */
 
-------------;
-/* I.S. terdefinisi list LM yang mungkin kosong
+// menampilkan isi list
+void printInfoHakim(ListHakim LH);
+/* I.S. terdefinisi list LH yang mungkin kosong
    F.S. jika list tidak kosong menampilkan semua info yang ada pada list */
 
-------------;
-/* I.S. terdefinisi list mahasiswa dan alamat mata kuliah
-        F.S. true jika mata kuliah masih direferensikan oleh KRS mahasiswa */
+// pengecekan referensi terdakwa di seluruh perkara hakim
+bool isTerdakwaReferenced(ListHakim LH, adrTerdakwa T);
+/* I.S. terdefinisi list hakim dan alamat terdakwa
+   F.S. true jika terdakwa masih direferensikan oleh perkara hakim */
 
-------------;
+// input data hakim dari user
+infotypeHakim inputDataHakim();
 /* I.S. ~
-   F.S. meminta data mahasisswa dari user */
+   F.S. meminta data hakim dari user */
 
-#endif // MAHASISWA_H_INCLUDED
+#endif // HAKIM_H_INCLUDED
