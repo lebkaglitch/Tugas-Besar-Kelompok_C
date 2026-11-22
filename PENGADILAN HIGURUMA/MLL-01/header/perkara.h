@@ -1,4 +1,4 @@
-#ifndef PERKARA_H_INCLUDED
+#ifndef PERKARA_H_INCLUDED        //Di kerjakan oleh Agung Kaleb Sasau_103012500211
 #define PERKARA_H_INCLUDED
 
 #include "terdakwa.h"
