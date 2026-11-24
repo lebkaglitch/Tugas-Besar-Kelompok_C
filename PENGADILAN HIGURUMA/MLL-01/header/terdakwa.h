@@ -1,4 +1,4 @@
-#ifndef TERDAKWA_H_INCLUDED
+#ifndef TERDAKWA_H_INCLUDED        //Di kerjakan oleh Agung Kaleb Sasau_103012500211
 #define TERDAKWA_H_INCLUDED
 
 #include <string>

@@ -1,4 +1,4 @@
-# Sistem Pengelolaan Persidangan (Adil.in)
+# Tugas-BesarKelompok-C-Topik-13
 
 ## Deskripsi
 Aplikasi pengelolaan persidangan (Adil.in) mencatat hakim dan terdakwa yang terlibat dalam berbagai perkara. Seorang hakim dapat menangani banyak perkara dan seorang terdakwa dapat terlibat dalam beberapa perkara yang ditangani oleh hakim berbeda. Setiap perkara memiliki nomor perkara, jadwal sidang, dan penugasan hakim. Data penanganan perkara dikelola melalui Multi Linked List, sedangkan putusan persidangan dicatat dalam Binary Search Tree.
