@@ -1,114 +1,99 @@
 #include "dummy.h"
 
-namespace
-{
-    void appendKRS(ListMahasiswa &LM, ListMatakuliah &LMK, const string &nim, const string &kodeMK, const string &id, int semester, int tahunAkademik, const string &kelas)
-    /* I.S. mahasiswa dengan NIM dan mata kuliah dengan kode MK tersedia
-       F.S. elemen KRS baru ditambahkan ke daftar KRS mahasiswa dan terhubung ke mata kuliah */
-    {
-        addressM parent = findElm(LM, nim);
-        addressMK child = findElm(LMK, kodeMK);
-        infotypeK info = {id, kelas, "Aktif", semester, tahunAkademik};
-        addressK node = createElemen(info, child);
-        insertLast(parent->LK, node);
+namespace {
+    void appendPerkara(ListHakim &LH, ListTerdakwa &LT,
+                       const string &idHakim, const string &idTerdakwa,
+                       const string &noPerkara, const string &tglSidang,
+                       const string &peranHakim, const string &statusPerkara,
+                       long biayaPerkara) {
+        adrHakim parent = findHakim(LH, idHakim);
+        adrTerdakwa child = findTerdakwa(LT, idTerdakwa);
+        if (parent != nullptr && child != nullptr) {
+            infotypePerkara info = {noPerkara, tglSidang, peranHakim, statusPerkara, biayaPerkara};
+            adrPerkara node = alokasiPerkara(info, child);
+            insertLastPerkara(parent->listPerkara, node);
+        }
     }
 
-    NilaiAkademik makeNilai(int id, const string &nim, const string &kodeMK, int tugas, int kuis, int uts, int uas)
-    /* I.S. identitas nilai dan seluruh komponen nilai terdefinisi
-       F.S. mengembalikan data nilai akademik dengan nilai akhir dan grade hasil perhitungan */
-    {
-        NilaiAkademik info;
-        info.idNilai = id;
-        info.nim = nim;
-        info.kodeMK = kodeMK;
-        info.semester = 7;
-        info.tahunAkademik = 2026;
-        info.nilaiTugas = tugas;
-        info.nilaiKuis = kuis;
-        info.nilaiUTS = uts;
-        info.nilaiUAS = uas;
-        hitungNilaiAkhir(info);
+    infotypePutusan makePutusan(const string &noPutusan, const string &noPerkara,
+                                const string &idHakim, const string &idTerdakwa,
+                                const string &tglPutusan, const string &hasilKeputusan,
+                                const string &jenisHukuman, const string &statusBanding) {
+        infotypePutusan info;
+        info.nomor_putusan = noPutusan;
+        info.nomor_perkara = noPerkara;
+        info.id_hakim = idHakim;
+        info.id_terdakwa = idTerdakwa;
+        info.tanggal_putusan = tglPutusan;
+        info.hasil_keputusan = hasilKeputusan;
+        info.jenis_hukuman = jenisHukuman;
+        info.status_banding = statusBanding;
         return info;
     }
 }
 
-void dummyMahasiswa(ListMahasiswa &LM)
-/* I.S. LM terdefinisi dan kosong
-   F.S. LM berisi 5 mahasiswa dengan relasi DLL */
-{
-    const infotypeM data[] = {
-        {"Andi Saputra", "231001", "Informatika", 2023},
-        {"Budi Santoso", "231002", "Informatika", 2023},
-        {"Citra Lestari", "231003", "Sistem Informasi", 2023},
-        {"Dinda Putri", "231004", "Informatika", 2023},
-        {"Eko Pratama", "231005", "Sistem Informasi", 2023}
+void dummyHakim(ListHakim &LH) {
+    infotypeHakim data[5] = {
+        {"HKM-001", "Hiromi Higuruma, S.H., M.H.", "Hakim Ketua", "PN Jakarta Pusat"},
+        {"HKM-002", "Dr. Artidjo Alkostar, S.H., LL.M.", "Hakim Agung", "MA Republik Indonesia"},
+        {"HKM-003", "Ratna Sari Dewi, S.H., M.H.", "Hakim Anggota", "PN Bandung"},
+        {"HKM-004", "Bambang Widjojanto, S.H., M.H.", "Hakim Ketua", "PN Surabaya"},
+        {"HKM-005", "Siti Nurhaliza, S.H., M.Kn.", "Hakim Anggota", "PN Medan"}
     };
 
-    for (unsigned int i = 0; i < sizeof(data) / sizeof(data[0]); ++i) {
-        addressM node = createElemen(data[i]);
-        insertLast(LM, node);
+    for (int i = 0; i < 5; i++) {
+        insertLastHakim(LH, alokasiHakim(data[i]));
     }
 }
 
-void dummyMatakuliah(ListMatakuliah &LMK)
-/* I.S. LMK terdefinisi dan kosong
-   F.S. LMK berisi 5 mata kuliah dalam SLL */
-{
-    const infotypeMK data[] = {
-        {"Algoritma dan Pemrograman", "IF101", 3, 1},
-        {"Struktur Data", "IF102", 3, 2},
-        {"Basis Data", "IF103", 3, 3},
-        {"Pemrograman Berorientasi Objek", "IF104", 3, 3},
-        {"Jaringan Komputer", "IF105", 3, 4}
+void dummyTerdakwa(ListTerdakwa &LT) {
+    infotypeTerdakwa data[5] = {
+        {"TDW-001", "Ahmad Subardjo", "Jl. Merdeka No. 12, Jakarta"},
+        {"TDW-002", "Budi Santoso", "Jl. Dago No. 45, Bandung"},
+        {"TDW-003", "Citra Kirana", "Jl. Sudirman No. 88, Surabaya"},
+        {"TDW-004", "Dimas Anggara", "Jl. Gatot Subroto No. 21, Medan"},
+        {"TDW-005", "Eka Saputra", "Jl. Diponegoro No. 10, Semarang"}
     };
 
-    for (unsigned int i = 0; i < sizeof(data) / sizeof(data[0]); ++i) {
-        addressMK node = createElemen(data[i]);
-        insertLast(LMK, node);
+    for (int i = 0; i < 5; i++) {
+        insertLastTerdakwa(LT, alokasiTerdakwa(data[i]));
     }
 }
 
-void dummyKRS(ListMahasiswa &LM, ListMatakuliah &LMK)
-/* I.S. LM berisi 5 mahasiswa dan LMK berisi 5 mata kuliah
-   F.S. KRS mahasiswa terhubung ke mata kuliah; total 10 relasi */
-{
-    addressM parent = LM.first;
-    while (parent != NULL) {
-        CreateList(parent->LK);
-        parent = parent->next;
-    }
+void dummyPerkara(ListHakim &LH, ListTerdakwa &LT) {
+    // 10 Perkara yang sudah diputus (terhubung dengan 10 node Putusan di BST)
+    appendPerkara(LH, LT, "HKM-001", "TDW-001", "PRK-001", "2026-10-01", "Hakim Ketua", "Putus", 5000000);
+    appendPerkara(LH, LT, "HKM-001", "TDW-002", "PRK-002", "2026-10-05", "Hakim Ketua", "Putus", 7500000);
+    appendPerkara(LH, LT, "HKM-002", "TDW-001", "PRK-003", "2026-10-10", "Hakim Tunggal", "Putus", 10000000);
+    appendPerkara(LH, LT, "HKM-002", "TDW-003", "PRK-004", "2026-10-12", "Hakim Ketua", "Putus", 4500000);
+    appendPerkara(LH, LT, "HKM-003", "TDW-002", "PRK-005", "2026-10-15", "Hakim Anggota", "Putus", 3000000);
+    appendPerkara(LH, LT, "HKM-003", "TDW-004", "PRK-006", "2026-10-18", "Hakim Ketua", "Putus", 6000000);
+    appendPerkara(LH, LT, "HKM-004", "TDW-005", "PRK-007", "2026-10-20", "Hakim Ketua", "Putus", 8000000);
+    appendPerkara(LH, LT, "HKM-004", "TDW-001", "PRK-008", "2026-10-25", "Hakim Anggota", "Putus", 5500000);
+    appendPerkara(LH, LT, "HKM-005", "TDW-003", "PRK-009", "2026-11-02", "Hakim Ketua", "Putus", 4000000);
+    appendPerkara(LH, LT, "HKM-005", "TDW-004", "PRK-010", "2026-11-08", "Hakim Tunggal", "Putus", 3500000);
 
-    appendKRS(LM, LMK, "231001", "IF101", "KRS001", 7, 2026, "A");
-    appendKRS(LM, LMK, "231001", "IF103", "KRS002", 7, 2026, "A");
-    appendKRS(LM, LMK, "231002", "IF102", "KRS003", 7, 2026, "B");
-    appendKRS(LM, LMK, "231002", "IF103", "KRS004", 7, 2026, "B");
-    appendKRS(LM, LMK, "231003", "IF101", "KRS005", 7, 2026, "A");
-    appendKRS(LM, LMK, "231003", "IF104", "KRS006", 7, 2026, "A");
-    appendKRS(LM, LMK, "231004", "IF105", "KRS007", 7, 2026, "C");
-    appendKRS(LM, LMK, "231005", "IF102", "KRS008", 7, 2026, "B");
-    appendKRS(LM, LMK, "231004", "IF101", "KRS009", 7, 2026, "C");
-    appendKRS(LM, LMK, "231005", "IF103", "KRS010", 7, 2026, "B");
+    // 2 Perkara tambahan yang masih berjalan (memudahkan testing input putusan baru nanti)
+    appendPerkara(LH, LT, "HKM-001", "TDW-005", "PRK-011", "2026-11-20", "Hakim Ketua", "Sidang Lanjutan", 2500000);
+    appendPerkara(LH, LT, "HKM-003", "TDW-001", "PRK-012", "2026-11-24", "Hakim Anggota", "Tahap Pembuktian", 4200000);
 }
 
-void dummyNilai(BST &T)
-/* I.S. T terdefinisi dan kosong
-   F.S. T berisi 10 data nilai akademik */
-{
-    const NilaiAkademik data[] = {
-        makeNilai(50, "231001", "IF101", 85, 80, 82, 88),
-        makeNilai(30, "231001", "IF103", 80, 75, 78, 82),
-        makeNilai(70, "231002", "IF102", 90, 85, 88, 92),
-        makeNilai(20, "231002", "IF103", 75, 78, 72, 80),
-        makeNilai(40, "231003", "IF101", 88, 90, 85, 87),
-        makeNilai(60, "231003", "IF104", 82, 80, 84, 86),
-        makeNilai(80, "231004", "IF105", 70, 75, 72, 78),
-        makeNilai(35, "231005", "IF102", 85, 82, 80, 84),
-        makeNilai(85, "231004", "IF101", 90, 88, 92, 94),
-        makeNilai(90, "231005", "IF103", 68, 70, 72, 74)
+void dummyPutusan(BST &T) {
+    // Dimasukkan dengan urutan nomor_putusan acak agar struktur BST seimbang
+    infotypePutusan data[10] = {
+        makePutusan("PTS-005", "PRK-005", "HKM-003", "TDW-002", "2026-10-22", "Bersalah", "Penjara 2 Tahun", "Tidak Banding"),
+        makePutusan("PTS-002", "PRK-002", "HKM-001", "TDW-002", "2026-10-12", "Bersalah", "Denda Rp50.000.000", "Banding"),
+        makePutusan("PTS-008", "PRK-008", "HKM-004", "TDW-001", "2026-11-01", "Bersalah", "Penjara 3 Tahun", "Banding"),
+        makePutusan("PTS-001", "PRK-001", "HKM-001", "TDW-001", "2026-10-08", "Bersalah", "Penjara 5 Tahun", "Banding"),
+        makePutusan("PTS-004", "PRK-004", "HKM-002", "TDW-003", "2026-10-19", "Bebas", "Bebas Murni", "Tidak Banding"),
+        makePutusan("PTS-007", "PRK-007", "HKM-004", "TDW-005", "2026-10-27", "Bersalah", "Penjara 4 Tahun", "Banding"),
+        makePutusan("PTS-010", "PRK-010", "HKM-005", "TDW-004", "2026-11-15", "Lepas", "Rehabilitasi", "Tidak Banding"),
+        makePutusan("PTS-003", "PRK-003", "HKM-002", "TDW-001", "2026-10-17", "Bersalah", "Penjara 6 Tahun", "Banding"),
+        makePutusan("PTS-006", "PRK-006", "HKM-003", "TDW-004", "2026-10-25", "Bersalah", "Denda Rp25.000.000", "Tidak Banding"),
+        makePutusan("PTS-009", "PRK-009", "HKM-005", "TDW-003", "2026-11-09", "Bersalah", "Penjara 1 Tahun", "Banding")
     };
 
-    for (unsigned int i = 0; i < sizeof(data) / sizeof(data[0]); ++i) {
-        addressN node = createElemen(data[i]);
-        insertNode(T, node);
+    for (int i = 0; i < 10; i++) {
+        insertPutusan(T, alokasiPutusan(data[i]));
     }
 }
