@@ -8,18 +8,20 @@ int main()
 /* I.S. program mulai dijalankan
    F.S. data dummy dimuat dan menu utama dijalankan */
 {
-    ListMahasiswa LM = {};
-    ListMatakuliah LMK = {};
+    ListHakim LH = {};
+    ListTerdakwa LT = {};
     BST T = {};
 
-    CreateList(LM);
-    CreateList(LMK);
-    CreateBST(T);
+    createListHakim(LH);
+    createListTerdakwa(LT);
+    createBST(T);
 
-    dummyMahasiswa(LM);
-    dummyMatakuliah(LMK);
-    dummyKRS(LM, LMK);
-    dummyNilai(T);
+    dummyHakim(LH);
+    dummyTerdakwa(LT);
+    dummyPerkara(LH, LT);
+    dummyPutusan(T);
 
-    menu(LM, LMK, T);
+    menu(LH, LT, T);
+
+    return 0;
 }
